@@ -100,7 +100,7 @@ def call_gemini_3way():
 if __name__ == "__main__":
     gpt_messages = ["Hi there"]
     claude_messages = ["Hi"]
-    gemini_messages = ["What's up"]
+    gemini_messages = ["How are you"]
 
     print(f"GPT:\n{gpt_messages[0]}\n")
     print(f"Claude:\n{claude_messages[0]}\n")
