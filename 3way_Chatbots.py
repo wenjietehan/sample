@@ -1,6 +1,4 @@
-#Try creating a 3-way, perhaps bringing Gemini into the conversation! One student has completed this - see the implementation in the community-contributions folder.
-
-#Try doing this yourself before you look at the solutions. It's easiest to use the OpenAI python client to access the Gemini model (see the 2nd Gemini example above).
+# A 3-way Chatbot conversation with GPT, Claude and Gemini
 
 # Imports
 import os
@@ -12,7 +10,6 @@ import google.generativeai
 
 # Load environment variables in a file called .env
 # Print the key prefixes to help with any debugging
-
 load_dotenv()
 openai_api_key = os.getenv('OPENAI_API_KEY')
 anthropic_api_key = os.getenv('ANTHROPIC_API_KEY')
@@ -33,17 +30,17 @@ if google_api_key:
 else:
     print("Google API Key not set")
 
+# Connect to OpenAI, Anthropic and Google
 openai = OpenAI()
 claude = anthropic.Anthropic()
 google.generativeai.configure()
 
-# Let's make a conversation between GPT-4o-mini and Claude-3-haiku
-# We're using cheap versions of models so the costs will be minimal
-
+# Set the models
 gpt_model = "gpt-4o-mini"
 claude_model = "claude-3-haiku-20240307"
 gemini_model = "gemini-1.5-flash"
 
+# System prompts
 gpt_system = "You are a chatbot who is very argumentative; \
 you disagree with anything in the conversation and you challenge everything, in a snarky way."
 
@@ -51,13 +48,9 @@ claude_system = "You are a very polite, courteous chatbot. You try to agree with
 everything the other person says, or find common ground. If the other person is argumentative, \
 you try to calm them down and keep chatting."
 
-gemini_system = "You are a smart witty chatbot. You don't always agree with what the other person \
-says but can always calm the other person with a joke."
-
-gpt_messages = ["Hi there"]
-claude_messages = ["Hi"]
-gemini_messages = ["What's up"]
-
+gemini_system = "You are a logical, detail-oriented and methodical chatbot. If you disagree with what the other person \
+says, you respond with a well-reasoned rebuttal."
+    
 def call_gpt_3way():
     messages = [{"role": "system", "content": gpt_system}]
     for gpt, claude, gemini in zip(gpt_messages, claude_messages, gemini_messages):
@@ -104,23 +97,24 @@ def call_gemini_3way():
     response = gemini.generate_content(messages)
     return response.text
 
-gpt_messages = ["Hi there"]
-claude_messages = ["Hi"]
-gemini_messages = ["What's up"]
+if __name__ == "__main__":
+    gpt_messages = ["Hi there"]
+    claude_messages = ["Hi"]
+    gemini_messages = ["What's up"]
 
-print(f"GPT:\n{gpt_messages[0]}\n")
-print(f"Claude:\n{claude_messages[0]}\n")
-print(f"Gemini:\n{gemini_messages[0]}\n")
-
-for i in range(3):
-    gpt_next = call_gpt_3way()
-    print(f"GPT:\n{gpt_next}\n")
-    gpt_messages.append(gpt_next)
+    print(f"GPT:\n{gpt_messages[0]}\n")
+    print(f"Claude:\n{claude_messages[0]}\n")
+    print(f"Gemini:\n{gemini_messages[0]}\n")
     
-    claude_next = call_claude_3way()
-    print(f"Claude:\n{claude_next}\n")
-    claude_messages.append(claude_next)
-
-    gemini_next = call_gemini_3way()
-    print(f"Gemini:\n{gemini_next}\n")
-    gemini_messages.append(gemini_next)
+    for i in range(3):
+        gpt_next = call_gpt_3way()
+        print(f"GPT:\n{gpt_next}\n")
+        gpt_messages.append(gpt_next)
+        
+        claude_next = call_claude_3way()
+        print(f"Claude:\n{claude_next}\n")
+        claude_messages.append(claude_next)
+    
+        gemini_next = call_gemini_3way()
+        print(f"Gemini:\n{gemini_next}\n")
+        gemini_messages.append(gemini_next)
