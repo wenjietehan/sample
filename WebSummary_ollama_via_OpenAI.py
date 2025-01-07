@@ -6,6 +6,11 @@ from bs4 import BeautifulSoup
 from IPython.display import Markdown, display
 from openai import OpenAI
 
+# Constants
+OLLAMA_API = "http://localhost:11434/api/chat"
+HEADERS = {"Content-Type": "application/json"}
+MODEL = "llama3.2"
+
 # A class to represent a Webpage
 # If you're not familiar with Classes, check out the "Intermediate Python" notebook
 
